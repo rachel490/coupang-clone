@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import React, { useState } from "react";
 import * as S from "./header.styled";
 
@@ -5,57 +6,45 @@ const Header = () => {
   const [hovered, setHovered] = useState(false);
   const toggleHover = () => setHovered(!hovered);
 
+  const [selected, setSelected] = useState("bestAsc");
+  const router = useRouter();
+  const originalQuery = router.query;
+
+  const SORTING_OPTIONS = [
+    { value: "bestAsc", name: "쿠팡 랭킹순" },
+    { value: "salePriceAsc", name: "낮은 가격순" },
+    { value: "salePriceDesc", name: "높은 가격순" },
+    { value: "saleCountDesc", name: "판매량순" },
+    { value: "latestAsc", name: "최신순" },
+  ];
+
+  const changeSort = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSelected(e.currentTarget.value);
+    router.push({
+      pathname: "/products",
+      query: { ...originalQuery, sorter: e.currentTarget.value },
+    });
+  };
+
   return (
     <S.Header>
       <h3>사과/배</h3>
       <div className="search-utils">
         <div className="sorting-order">
           <ul className="sorting-order-options">
-            <li className="selected">
-              <input
-                type="radio"
-                id="sorter-bestAsc"
-                name="sorter"
-                value="bestAsc"
-              />
-              <label htmlFor="sorter-bestAsc">쿠팡 랭킹순</label>
-            </li>
-            <li>
-              <input
-                type="radio"
-                id="sorter-salePriceAsc"
-                name="sorter"
-                value="salePriceAsc"
-              />
-              <label htmlFor="sorter-salePriceAsc">낮은가격순</label>
-            </li>
-            <li>
-              <input
-                type="radio"
-                id="sorter-salePriceDesc"
-                name="sorter"
-                value="salePriceDesc"
-              />
-              <label htmlFor="sorter-salePriceDesc">낮은가격순</label>
-            </li>
-            <li>
-              <input
-                type="radio"
-                id="sorter-saleCountDesc"
-                name="sorter"
-                value="saleCountDesc"
-              />
-              <label htmlFor="sorter-saleCountDesc">판매량순</label>
-            </li>
-            <li>
-              <input
-                type="radio"
-                id="sorter-latestAsc"
-                name="sorter"
-                value="latestAsc"
-              />
-              <label htmlFor="sorter-latestAsc">최신순</label>
-            </li>
+            {SORTING_OPTIONS.map(({ name, value }) => (
+              <li className={selected === value ? "selected" : ""} key={value}>
+                <input
+                  type="radio"
+                  id={`sorter-${value}`}
+                  name="sorter"
+                  value={value}
+                  onChange={changeSort}
+                  checked={selected === value}
+                />
+                <label htmlFor={`sorter-${value}`}>{name}</label>
+              </li>
+            ))}
           </ul>
         </div>
         <div className="sorting-list">
