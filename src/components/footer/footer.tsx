@@ -5,15 +5,18 @@ import * as S from "./footer.styled";
 
 const Footer = () => {
   const router = useRouter();
-  const {
-    query: { page = 1 },
-  } = router;
+  const originalQuery = router.query;
+
   const [startPage, setStartPage] = useState(1);
-  const [currentPage, setCurrentPage] = useState(Number(page));
+  const [currentPage, setCurrentPage] = useState(1);
 
   const pageChange = (e: React.MouseEvent) => {
     const pageNum = e.currentTarget.getAttribute("data-page");
     pageNum && setCurrentPage(Number(pageNum));
+    router.push({
+      pathname: "/products",
+      query: { ...originalQuery, page: pageNum },
+    });
   };
 
   const prevPage = (e: React.MouseEvent) => {
@@ -22,7 +25,7 @@ const Footer = () => {
     setCurrentPage(startPage - 1);
     router.push({
       pathname: "/products",
-      query: { page: startPage - 1 },
+      query: { ...originalQuery, page: startPage - 1 },
     });
   };
 
@@ -31,7 +34,7 @@ const Footer = () => {
     setCurrentPage(startPage + 10);
     router.push({
       pathname: "/products",
-      query: { page: startPage + 10 },
+      query: { ...originalQuery, page: startPage + 10 },
     });
   };
 
@@ -46,18 +49,13 @@ const Footer = () => {
           .map((key, idx) => key + idx)
           .map((pagenum) => {
             return (
-              <Link
-                href={pagenum === 1 ? "/products" : `?page=${pagenum}`}
-                key={pagenum}
+              <a
+                data-page={pagenum}
+                onClick={pageChange}
+                className={`${pagenum === currentPage ? "selected" : ""}`}
               >
-                <a
-                  data-page={pagenum}
-                  onClick={pageChange}
-                  className={`${pagenum === currentPage ? "selected" : ""}`}
-                >
-                  {pagenum}
-                </a>
-              </Link>
+                {pagenum}
+              </a>
             );
           })}
         <a className="icon next-page" onClick={nextPage}>
