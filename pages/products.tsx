@@ -10,13 +10,15 @@ import { IProductItem } from "../types/product";
 
 export default function ProductListPage() {
   const {
-    query: { page, sorter = "bestAsc" },
+    query: { page = 1, sorter = "bestAsc", limit = 12 },
   } = useRouter();
   const URL =
     process.env.NEXT_PUBLIC_API_HOST +
-    `/products?offset=5&limit=40&sorter=${sorter}`;
+    `/products?offset=${
+      Number(limit) * (Number(page) - 1)
+    }&limit=${limit}&sorter=${sorter}`;
 
-  const { data } = useQuery(["products",URL], () => axios.get(URL));
+  const { data } = useQuery(["products", URL], () => axios.get(URL));
 
   return (
     <Wrap>
