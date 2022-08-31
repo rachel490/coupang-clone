@@ -7,6 +7,7 @@ const Header = () => {
   const toggleHover = () => setHovered(!hovered);
 
   const [selected, setSelected] = useState("bestAsc");
+  const [listNum, setListNum] = useState(12);
   const router = useRouter();
   const originalQuery = router.query;
 
@@ -18,11 +19,21 @@ const Header = () => {
     { value: "latestAsc", name: "최신순" },
   ];
 
+  const LISTING_OPTIONS = [12, 24];
+
   const changeSort = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSelected(e.currentTarget.value);
     router.push({
       pathname: "/products",
       query: { ...originalQuery, sorter: e.currentTarget.value },
+    });
+  };
+
+  const changeListNum = (opt: number) => {
+    setListNum(opt);
+    router.push({
+      pathname: "/products",
+      query: { ...originalQuery, limit: opt },
     });
   };
 
@@ -53,8 +64,14 @@ const Header = () => {
             onMouseEnter={toggleHover}
             onMouseLeave={toggleHover}
           >
-            <li className="selected">60개씩 보기</li>
-            <li>120개씩 보기</li>
+            {LISTING_OPTIONS.map((opt) => (
+              <li
+                className={listNum === opt ? "selected" : ""}
+                onClick={() => changeListNum(opt)}
+              >
+                {opt}개씩 보기
+              </li>
+            ))}
           </ul>
         </div>
       </div>
