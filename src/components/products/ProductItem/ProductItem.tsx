@@ -1,10 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
-import { IProductItem } from "../../../types/product";
+
+import { IProductItem } from 'types/product';
 import * as S from "./productItem.styled";
 
-export const ProductItem = (props: IProductItem) => {
+const ProductItem = (props: IProductItem) => {
   const {
     originalPrice,
     salePrice,
@@ -155,3 +155,5 @@ export const ProductItem = (props: IProductItem) => {
     </S.Container>
   );
 };
+
+export default ProductItem;

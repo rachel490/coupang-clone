@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Hydrate, QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 
-import Layout from "../src/components/layout/layout";
+import { Layout } from "../src/components";
 import "../styles/globals.css";
 
 function MyApp({ Component, pageProps }: AppProps) {
