@@ -25,3 +25,8 @@ em {
   font-style: normal;
   font-weight: normal;
 }
+
+button {
+  border: none;
+  background-color: transparent;
+}
