@@ -40,6 +40,7 @@ const Pagination = () => {
         {pageArr.map((pagenum) => {
           return (
             <S.Btn
+              key={pagenum}
               onClick={pageChange}
               className={`${pagenum === currentPage ? "selected" : ""}`}
             >
