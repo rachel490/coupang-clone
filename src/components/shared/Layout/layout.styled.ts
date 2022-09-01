@@ -1,13 +1,9 @@
 import styled from "@emotion/styled";
 
-export const Wrap = styled.div`
-
-`;
-
-export const Header = styled.header`
+export const Nav = styled.nav`
   width: 100%;
   height: 188px;
-  background-color: lightpink;
+  background-color: lavenderblush;
 `;
 
 export const Container = styled.div`
@@ -20,5 +16,10 @@ export const Container = styled.div`
 export const Sidebar = styled.div`
   width: 200px;
   padding: 0 10px;
-  background-color: lightgreen;
+  background-color: lightyellow;
+`;
+
+export const Content = styled.div`
+  width: 1080px;
+  padding: 20px 0 0 0px;
 `;
